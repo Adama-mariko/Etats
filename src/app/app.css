@@ -1,0 +1,70 @@
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 320px;
+    /* Sidebar width + gap */
+    padding: 20px 40px 40px 20px;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.search-bar {
+    flex: 1;
+    max-width: 600px;
+    padding: 10px 20px !important;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-bar i {
+    color: var(--text-muted);
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.date-display {
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-right: 15px;
+    font-size: 0.9rem;
+}
+
+.page-content {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,46 @@
+<div class="report-header">
+    <div class="title-section">
+        <h1>États Financiers</h1>
+        <p class="subtitle">Analyse détaillée des transactions et flux de trésorerie.</p>
+    </div>
+    <div class="actions">
+        <button class="btn btn-outline" (click)="exportExcel()">
+            <i class="fas fa-file-excel"></i> Excel
+        </button>
+        <button class="btn btn-primary" (click)="exportPDF()">
+            <i class="fas fa-file-pdf"></i> PDF
+        </button>
+    </div>
+</div>
+
+<div class="glass-card table-container">
+    <table class="luxury-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Catégorie</th>
+                <th class="text-right">Montant</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of financialData; track item.id) {
+            <tr>
+                <td>#{{item.id}}</td>
+                <td>{{item.date}}</td>
+                <td>{{item.description}}</td>
+                <td><span class="badge">{{item.category}}</span></td>
+                <td class="text-right" [class.negative]="item.amount < 0">
+                    {{item.amount | currency:'EUR':'symbol':'1.2-2'}}
+                </td>
+                <td>
+                    <span class="status-dot" [class.active]="item.status === 'Payé'"></span>
+                    {{item.status}}
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

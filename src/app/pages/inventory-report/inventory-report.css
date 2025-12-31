@@ -1,0 +1,76 @@
+.inventory-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.chart-container {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-wrapper {
+    flex: 1;
+    padding: 20px;
+    position: relative;
+}
+
+.summary-list {
+    padding: 30px !important;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.product-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.product-info h4 {
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    height: 6px;
+    background: var(--glass-bg);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 1s ease-in-out;
+}
+
+.product-stats {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.stat .value {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 1200px) {
+    .inventory-grid {
+        grid-template-columns: 1fr;
+    }
+}

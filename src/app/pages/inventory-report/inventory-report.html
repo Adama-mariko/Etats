@@ -1,0 +1,51 @@
+<div class="report-header">
+    <div class="title-section">
+        <h1>État des Stocks</h1>
+        <p class="subtitle">Surveillance des niveaux d'inventaire et performance des produits.</p>
+    </div>
+    <div class="actions">
+        <button class="btn btn-primary" (click)="exportExcel()">
+            <i class="fas fa-file-excel"></i> Exporter vers Excel
+        </button>
+    </div>
+</div>
+
+<div class="inventory-grid">
+    <div class="glass-card chart-container">
+        <div class="section-header">
+            <h2>Distribution des Stocks vs Ventes</h2>
+        </div>
+        <div class="chart-wrapper">
+            <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
+            </canvas>
+        </div>
+    </div>
+
+    <div class="glass-card summary-list">
+        <div class="section-header">
+            <h2>Détails des Produits</h2>
+        </div>
+        <div class="product-list">
+            @for (item of inventoryData; track item.product) {
+            <div class="product-item">
+                <div class="product-info">
+                    <h4>{{item.product}}</h4>
+                    <div class="progress-bar">
+                        <div class="progress" [style.width.%]="(item.stock / 60) * 100"></div>
+                    </div>
+                </div>
+                <div class="product-stats">
+                    <div class="stat">
+                        <span class="label">Stock</span>
+                        <span class="value">{{item.stock}}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Valeur</span>
+                        <span class="value">{{item.value | currency:'EUR':'symbol':'1.0-0'}}</span>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

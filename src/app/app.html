@@ -1,0 +1,25 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+
+  <main class="main-content">
+    <header class="top-header">
+      <div class="search-bar glass-card">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Rechercher un rapport, une donnée...">
+      </div>
+      <div class="header-actions">
+        <div class="date-display">{{ today | date:'dd MMMM yyyy' }}</div>
+        <button class="btn btn-outline">
+          <i class="fas fa-bell"></i>
+        </button>
+        <button class="btn btn-primary">
+          <i class="fas fa-plus"></i> Nouveau Rapport
+        </button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
