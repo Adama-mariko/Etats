@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
@@ -7,25 +8,55 @@ import * as XLSX from 'xlsx';
     providedIn: 'root'
 })
 export class ReportService {
+    private searchSubject = new BehaviorSubject<string>('');
+    searchQuery$ = this.searchSubject.asObservable();
+
+    setSearchQuery(query: string) {
+        this.searchSubject.next(query);
+    }
+
+    private financialData = [
+        { id: 1, date: '2025-12-01', description: 'Vente Logiciel SaaS', category: 'Ventes', amount: 1500.00, status: 'Payé' },
+        { id: 2, date: '2025-12-05', description: 'Achat Serveurs AWS', category: 'Infrastructure', amount: -450.00, status: 'Payé' },
+        { id: 3, date: '2025-12-10', description: 'Consultance Expert AI', category: 'Services', amount: 2500.00, status: 'En attente' },
+        { id: 4, date: '2025-12-15', description: 'Licences Adobe Creative', category: 'Logiciels', amount: -120.00, status: 'Payé' },
+        { id: 5, date: '2025-12-20', description: 'Vente Formation Web', category: 'Ventes', amount: 800.00, status: 'Payé' },
+        { id: 6, date: '2025-12-25', description: 'Loyer Bureau', category: 'Charges', amount: -1200.00, status: 'Payé' },
+    ];
+
+    private inventoryData = [
+        { product: 'MacBook Pro M3', stock: 15, sales: 45, value: 37500 },
+        { product: 'iPad Air', stock: 25, sales: 60, value: 15000 },
+        { product: 'Magic Keyboard', stock: 50, sales: 30, value: 5000 },
+        { product: 'Studio Display', stock: 8, sales: 12, value: 12000 },
+    ];
 
     getFinancialData() {
-        return [
-            { id: 1, date: '2025-12-01', description: 'Vente Logiciel SaaS', category: 'Ventes', amount: 1500.00, status: 'Payé' },
-            { id: 2, date: '2025-12-05', description: 'Achat Serveurs AWS', category: 'Infrastructure', amount: -450.00, status: 'Payé' },
-            { id: 3, date: '2025-12-10', description: 'Consultance Expert AI', category: 'Services', amount: 2500.00, status: 'En attente' },
-            { id: 4, date: '2025-12-15', description: 'Licences Adobe Creative', category: 'Logiciels', amount: -120.00, status: 'Payé' },
-            { id: 5, date: '2025-12-20', description: 'Vente Formation Web', category: 'Ventes', amount: 800.00, status: 'Payé' },
-            { id: 6, date: '2025-12-25', description: 'Loyer Bureau', category: 'Charges', amount: -1200.00, status: 'Payé' },
-        ];
+        return [...this.financialData];
     }
 
     getInventoryData() {
-        return [
-            { product: 'MacBook Pro M3', stock: 15, sales: 45, value: 37500 },
-            { product: 'iPad Air', stock: 25, sales: 60, value: 15000 },
-            { product: 'Magic Keyboard', stock: 50, sales: 30, value: 5000 },
-            { product: 'Studio Display', stock: 8, sales: 12, value: 12000 },
-        ];
+        return [...this.inventoryData];
+    }
+
+    addFinancialReport(report: any) {
+        this.financialData.unshift({
+            id: this.financialData.length + 1,
+            ...report
+        });
+    }
+
+    searchReports(query: string) {
+        const q = query.toLowerCase();
+        return {
+            financial: this.financialData.filter(f =>
+                f.description.toLowerCase().includes(q) ||
+                f.category.toLowerCase().includes(q)
+            ),
+            inventory: this.inventoryData.filter(i =>
+                i.product.toLowerCase().includes(q)
+            )
+        };
     }
 
     exportToPDF(filename: string, title: string, headers: string[][], data: any[][]) {

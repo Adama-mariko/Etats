@@ -15,7 +15,18 @@ export class FinancialReport implements OnInit {
   constructor(private reportService: ReportService) { }
 
   ngOnInit() {
-    this.financialData = this.reportService.getFinancialData();
+    this.reportService.searchQuery$.subscribe(query => {
+      const allData = this.reportService.getFinancialData();
+      if (!query) {
+        this.financialData = allData;
+      } else {
+        const q = query.toLowerCase();
+        this.financialData = allData.filter(item =>
+          item.description.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q)
+        );
+      }
+    });
   }
 
   exportPDF() {

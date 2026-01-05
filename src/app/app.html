@@ -5,14 +5,16 @@
     <header class="top-header">
       <div class="search-bar glass-card">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Rechercher un rapport, une donnée...">
+        <input type="text" placeholder="Rechercher un rapport, une donnée..." [(ngModel)]="searchQuery"
+          (input)="onSearch()">
       </div>
       <div class="header-actions">
         <div class="date-display">{{ today | date:'dd MMMM yyyy' }}</div>
-        <button class="btn btn-outline">
+        <button class="btn btn-outline" (click)="toggleTheme()"
+          [title]="isLightTheme ? 'Passer au mode sombre' : 'Passer au mode clair'">
           <i class="fas fa-bell"></i>
         </button>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" (click)="openModal()">
           <i class="fas fa-plus"></i> Nouveau Rapport
         </button>
       </div>
@@ -22,4 +24,55 @@
       <router-outlet></router-outlet>
     </div>
   </main>
+
+  <!-- Modal Nouveau Rapport -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-content glass-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Nouveau Rapport Financier</h2>
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      <form (submit)="submitReport()">
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" [(ngModel)]="newReport.description" name="description" required
+            placeholder="Ex: Vente Logiciel">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Catégorie</label>
+            <select [(ngModel)]="newReport.category" name="category">
+              <option value="Ventes">Ventes</option>
+              <option value="Infrastructure">Infrastructure</option>
+              <option value="Services">Services</option>
+              <option value="Logiciels">Logiciels</option>
+              <option value="Charges">Charges</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Montant (€)</label>
+            <input type="number" [(ngModel)]="newReport.amount" name="amount" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" [(ngModel)]="newReport.date" name="date" required>
+          </div>
+          <div class="form-group">
+            <label>Statut</label>
+            <select [(ngModel)]="newReport.status" name="status">
+              <option value="Payé">Payé</option>
+              <option value="En attente">En attente</option>
+              <option value="Annulé">Annulé</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-primary">Ajouter le Rapport</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

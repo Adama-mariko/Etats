@@ -58,8 +58,18 @@ export class InventoryReport implements OnInit {
   constructor(private reportService: ReportService) { }
 
   ngOnInit() {
-    this.inventoryData = this.reportService.getInventoryData();
-    this.setupChart();
+    this.reportService.searchQuery$.subscribe(query => {
+      const allData = this.reportService.getInventoryData();
+      if (!query) {
+        this.inventoryData = allData;
+      } else {
+        const q = query.toLowerCase();
+        this.inventoryData = allData.filter(item =>
+          item.product.toLowerCase().includes(q)
+        );
+      }
+      this.setupChart();
+    });
   }
 
   setupChart() {
